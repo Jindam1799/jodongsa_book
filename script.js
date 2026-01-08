@@ -119,62 +119,6 @@ document.addEventListener('DOMContentLoaded', function () {
       if (currentLevelIndex < currentLevels.length) {
         const sentence = currentLevels[currentLevelIndex];
 
-        // Day 2, sentence 16, level 3일 때 설명 팝업 표시
-        if (
-          currentDay === 2 &&
-          sentence.id === 'sentence16' &&
-          currentLevelIndex === 2
-        ) {
-          showExplanationPopup({
-            question: '이 문장에 왜 的가 들어가나요?',
-            items: [
-              '중국어의 的는 항상 명사를 꾸미는 다리역할만 하는게 아님!',
-              '문장 끝의 的는 "…일 것이다"의 会와 절친!',
-              '말하는 사람의 확신·강조를 나타냄!',
-              '会 + 동사 + 的는 이미 마음속으로 확정된 미래를 말할 때 사용!',
-              '분명 고쳐질 것이다(걱정하지 마라)의 느낌 ⭕',
-            ],
-          });
-          return; // 팝업이 닫힐 때까지 대기
-        }
-
-        // Day 2, sentence 17, level 6일 때 설명 팝업 표시
-        if (
-          currentDay === 2 &&
-          sentence.id === 'sentence17' &&
-          currentLevelIndex === 5
-        ) {
-          showExplanationPopup({
-            question: "'幸亏'는 부사인데 왜 문장 맨 앞에 오나요?",
-            items: [
-              '중국어의 부사는 반드시 동사 바로 앞에만 오는 것은 아님!',
-              '幸亏는 단순한 동작을 앞에서 꾸며주는 부사가 아니라 문장 전체를 꾸며주는 부사이기도 함!',
-              '幸亏 + 주어 + 동사 … 구조는 매우 자연스러운 고정 패턴!',
-              '한국어의 "다행히도"가 문장 맨 앞에 오는 것과 같은 원리!',
-            ],
-          });
-          return; // 팝업이 닫힐 때까지 대기
-        }
-
-        // Day 3, sentence 23, level 5일 때 설명 팝업 표시
-        if (
-          currentDay === 3 &&
-          sentence.id === 'sentence23' &&
-          currentLevelIndex === 4
-        ) {
-          showExplanationPopup({
-            question:
-              '"매니저는 주도적으로 그 중요한 직무를 맡았다."에서 ~맡았다인데 왜 了가 없나요?',
-            items: [
-              '중국어의 "了"는 항상 과거시제를 나타내는 게 아님!',
-              '"了"는 동작의 완료나 상태 변화를 강조하는 역할도 하고, 문맥만으로 시제가 드러나면 생략되기도 함!',
-              '"承担起" 자체가 \'책임을 떠안다/맡다\'라는 동작적 의미!',
-              '문맥상 이미 일어난 사실로 이해되기 때문에 한국어에서는 과거형으로 번역하는 것이 더 자연스러움!',
-            ],
-          });
-          return; // 팝업이 닫힐 때까지 대기
-        }
-
         koreanSentence.textContent = sentence.korean;
 
         // 문장 번호 계산
