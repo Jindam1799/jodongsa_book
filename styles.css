@@ -1,788 +1,511 @@
+:root {
+  --main-color: #f4c84d;
+  --main-dark: #d9aa32;
+  --bg-color: #fdfaf0;
+  --text-color: #333333;
+  --card-bg: #ffffff;
+  --slot-bg: #f3edd8;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: 'Noto Sans KR', 'Noto Sans SC', 'Noto Sans', sans-serif;
+  font-family:
+    'Pretendard',
+    -apple-system,
+    sans-serif;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
-
-body {
-  background-color: #fffbf0;
-  color: #333;
-  line-height: 1.6;
-  min-height: 100vh;
-  padding: 20px 0;
+body,
+html {
+  width: 100%;
+  height: 100dvh;
+  overflow: hidden;
+  background-color: var(--bg-color);
+  color: var(--text-color);
 }
-
-.container {
-  max-width: 100%;
-  margin: 0 auto;
-  padding: 1rem;
-  background-color: white;
-  border-radius: 25px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-  border-top: 10px solid #f4c84d;
-  border-bottom: 10px solid #f4c84d;
-}
-
-header {
-  text-align: center;
-  margin-bottom: 1rem;
-  padding: 0.8rem;
+#app {
+  width: 100%;
+  height: 100%;
   position: relative;
 }
-
-header h1 {
-  font-size: 2.2rem;
-  margin-bottom: 0.5rem;
-  font-weight: 700;
-  color: #e0a800;
-  letter-spacing: 1px;
-}
-
-header:after {
-  content: '';
-  display: block;
+.screen {
+  display: none;
   width: 100%;
-  height: 2px;
-  background: repeating-linear-gradient(
-    90deg,
-    #f4c84d,
-    #f4c84d 8px,
-    transparent 8px,
-    transparent 16px
-  );
-  margin-top: 15px;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.screen.active {
+  display: flex;
+}
+.hidden {
+  display: none !important;
+}
+.mt-20 {
+  margin-top: 20px;
 }
 
-.creator-tag {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  color: #f4c84d;
-  font-size: 0.9rem;
-  font-style: bold;
+.logo-title {
+  font-size: 46px; /* 메인 타이틀을 42px에서 46px로 키워 시원하게 배치 */
+  color: var(--main-dark);
+  margin-bottom: 15px;
+  letter-spacing: 2px;
+  font-weight: 900;
+}
+.subtitle {
+  color: #888;
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+.primary-btn {
+  padding: 14px 30px;
+  font-size: 18px;
+  background-color: var(--main-color);
+  color: #fff;
+  border: none;
+  border-radius: 30px;
+  font-weight: bold;
+  box-shadow: 0 4px 10px rgba(244, 200, 77, 0.4);
+  cursor: pointer;
 }
 
-.popup {
+/* --- 팝업 --- */
+#popup-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 100;
 }
-
-.popup-content {
-  background-color: white;
-  padding: 2.5rem;
-  border-radius: 15px;
-  max-width: 90%;
-  max-height: 90%;
-  overflow-y: auto;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
-  border: 5px solid #f4c84d;
+.popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  padding: 25px;
+  border-radius: 20px;
+  z-index: 101;
+  text-align: center;
+  width: 92%;
+  max-width: 400px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
-
 .popup h2 {
-  color: #e0a800;
-  font-size: 1.5rem;
-  text-align: center;
+  margin-bottom: 15px;
+  color: var(--main-dark);
+}
+.popup p {
+  font-size: 15px;
+  line-height: 1.5;
+  color: #555;
+}
+.success-title {
+  color: #4caf50 !important;
 }
 
-.popup-content h2 {
-  margin-bottom: 0.5rem; /* h2와 h5 사이 간격 줄임 */
+/* 성공 팝업 내 문장 박스 */
+.completed-sentence-box {
+  background: var(--bg-color);
+  padding: 15px;
+  border-radius: 12px;
+  margin: 15px 0;
 }
-
-.popup-content h4 {
-  text-align: center;
-  color: #666;
-  margin-bottom: 1rem;
-  font-size: 0.9rem;
-}
-
-/* 가운데 정렬 부제목 */
-.subtitle-center {
-  text-align: center;
-  margin-bottom: 1.2rem; /* h5와 다음 요소 사이 간격 조정 */
-  color: #e0a800; /* h2와 같은 색상 */
-}
-
-/* 빨간색 강조 텍스트 (굵게) */
-.highlight-red {
-  color: #d1464c;
+#success-korean {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 8px;
   font-weight: bold;
 }
-
-/* 간격이 좁은 텍스트 */
-.popup-content p.compact-text {
-  margin-top: 0.3rem !important;
-  margin-bottom: 0.3rem !important;
+#success-chinese {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--text-color);
 }
 
-/* 제작/개발 정보 간격 (위쪽 간격 넓게, 아래쪽은 좁게) */
-.popup-content p.compact-credit {
-  margin-top: 1.5rem !important;
-  margin-bottom: 0.3rem !important;
-}
-
-.popup-content p.compact-credit + p.compact-credit {
-  margin-top: 0.3rem !important;
-}
-
-.popup-content h4 + h4 {
-  margin-top: 0rem; /* 연속된 h4 태그 사이의 여백 제거 */
-}
-
-/* 복습 화면 인증 안내 */
-.review-instruction {
-  margin-bottom: 0.3rem !important;
-}
-
-/* 복습 화면 설명 (부호 생략 안내) */
-.review-note {
-  text-align: center;
-  font-size: 0.75rem;
-  color: #999;
-  margin-top: 0.2rem;
-  margin-bottom: 1rem;
-}
-
-.popup p {
-  margin-bottom: 1rem;
-  font-size: 1.1rem;
-  line-height: 1.7;
-}
-
-.day-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  justify-content: center;
-  margin-top: 1.5rem;
-}
-
-.day-button {
-  padding: 1rem 1.5rem;
-  background-color: #e8f8f5;
-  color: #e0a800;
-  border: 2px solid #f4c84d;
+/* 녹음 버튼 영역 */
+.recorder-box {
+  margin-top: 15px;
+  padding: 12px;
+  background: #fff8e1;
   border-radius: 12px;
-  font-size: 1.1rem;
-  font-weight: 600;
+}
+.recorder-guide {
+  font-size: 12px !important;
+  color: #888 !important;
+  margin-bottom: 10px;
+}
+/* --- 녹음 버튼 영역 모바일 핏 최적화 --- */
+.voice-btns {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap; /* 화면이 좁을 경우 자연스럽게 통째로 줄바꿈 허용 */
+}
+
+.btn-voice {
+  padding: 8px 5px;
+  font-size: 13px;
+  font-weight: bold;
+  border-radius: 20px;
+  border: 2px solid var(--main-color);
+  background: white;
+  color: var(--text-color);
   cursor: pointer;
-  transition: all 0.3s;
+  transition: all 0.2s;
+  white-space: nowrap; /* 핵심: 버튼 안에서 글씨가 두 줄로 쪼개지는 것 방지 */
+  flex: 1 1 auto; /* 버튼 3개가 공간을 공평하게 나눠 가지도록 설정 */
 }
 
-.day-button:hover {
-  background-color: #f4c84d;
-  color: white;
-}
-
-.day-button:disabled {
-  background-color: #f5f5f5;
-  border-color: #cccccc;
-  color: #999999;
+.btn-voice:disabled {
+  opacity: 0.4;
+  border-color: #ccc;
   cursor: not-allowed;
 }
 
-.day-button.active {
-  background-color: #f4c84d;
+.btn-voice.recording {
+  background-color: #ff5252;
   color: white;
+  border-color: #ff5252;
+  animation: pulse 1s infinite;
+}
+
+/* --- 다음 문장 버튼 여백 띄우기 --- */
+.popup-actions {
+  margin-top: 25px; /* 네모 블록과 맞닿지 않도록 시원한 여백 추가 */
+  display: flex;
+  justify-content: center;
+}
+
+/* 복습 리스트 (틀린 문제 강조 및 폰트 차별화) */
+.review-container {
+  max-height: 45vh;
+  overflow-y: auto;
+  text-align: left;
+  margin: 15px 0;
+  padding-right: 5px;
+}
+.review-item {
+  background: var(--bg-color);
+  padding: 15px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 2px solid transparent;
+}
+.review-item.mistake-highlight {
+  border-color: #ff5252;
+  background: #fff0f0;
+} /* 틀린 문장 강조 */
+.review-text {
+  flex: 1;
+  padding-right: 10px;
+}
+.review-text .r-korean {
+  font-size: 18px;
+  color: #000;
+  font-weight: 800;
+  margin-bottom: 6px;
+} /* 한국어 크고 검게 */
+.review-text .r-chinese {
+  font-size: 16px;
+  font-weight: 600;
+  color: #888;
+} /* 한자 회색으로 */
+.icon-btn {
+  width: 40px;
+  height: 40px;
+  font-size: 18px;
+  background-color: var(--card-bg);
+  border: 2px solid var(--main-color);
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* --- 게임 UI --- */
+.intro-content {
+  text-align: center;
+  animation: bounce-soft 2s infinite;
+}
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  width: 85%;
+  max-width: 400px;
+}
+.grid-container button {
+  padding: 18px 10px;
+  font-size: 18px;
+  border: 2px solid var(--main-color);
+  border-radius: 12px;
+  background-color: var(--card-bg);
+  color: var(--main-dark);
+  font-weight: 800;
+  cursor: pointer;
+}
+
+#screen-game {
+  padding: 20px;
+  justify-content: flex-start;
+}
+#screen-game.is-final {
+  background-color: #fff8e1;
+}
+#screen-game.is-final .korean-box {
+  border-color: #e57373;
+  background-color: #ffebee;
+}
+#screen-game.is-final #korean-sentence {
+  color: #d32f2f;
+}
+
+.top-nav {
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.text-btn {
+  background: none;
+  border: none;
+  font-size: 16px;
+  font-weight: bold;
+  color: #888;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.timer-box {
+  font-size: 20px;
+  font-weight: 900;
+  color: #e57373;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }
 
 .game-header {
+  width: 100%;
+  max-width: 500px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.status-bar {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+.badge {
+  background-color: var(--main-color);
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 800;
+}
+.korean-box {
+  background-color: var(--card-bg);
+  border: 2px solid var(--main-color);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(244, 200, 77, 0.15);
+  min-height: 80px;
+  display: flex;
   align-items: center;
-  margin-bottom: 0.7rem;
-  padding: 0.5rem;
-  color: #e0a800;
+  justify-content: center;
 }
-
-.timer-display {
-  text-align: center;
-  margin-bottom: 1.5rem;
-}
-
-.timer-display h3 {
-  font-size: 1.5rem;
-  color: #e0a800;
-  margin-bottom: 0.5rem;
-}
-
-.progress-display {
-  text-align: center;
-  margin-bottom: 1.5rem;
-}
-
-.progress-display h3 {
-  font-size: 1.5rem;
-  color: #e0a800;
-  margin-bottom: 0.5rem;
-}
-
-.progress {
-  height: 100%;
-  background-color: #f4c84d;
-  width: 0%;
-  transition: width 0.5s ease;
-  border-radius: 8px;
-}
-
-.sentence-display {
-  background-color: #e8f8f5;
-  padding: 1.2rem;
-  border-radius: 15px;
-  margin-bottom: 1rem;
-  text-align: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-  font-size: 1.3rem;
-  font-weight: 500;
-  color: #333;
-  border: 1px dashed #f4c84d;
-}
-
-/* isFinal: true인 중요한 문장 스타일 */
-.sentence-display .final-sentence,
-#korean-sentence.final-sentence {
-  color: #e0a800;
+#korean-sentence {
+  font-size: 20px;
   font-weight: 700;
-  font-size: 1.4rem;
-  text-shadow: 0 1px 2px rgba(224, 168, 0, 0.1);
+  line-height: 1.4;
+  word-break: keep-all;
 }
 
-.sentence-display:has(.final-sentence) {
-  background: linear-gradient(135deg, #fffbf0 0%, #fff8e1 100%);
-  border: 2px solid #f4c84d;
-  box-shadow: 0 6px 12px rgba(244, 200, 77, 0.2);
+.game-board,
+.game-controls {
+  width: 100%;
+  max-width: 500px;
 }
-
-.instruction {
-  text-align: center;
-  margin-bottom: 1.5rem;
-  color: #8e44ad;
-  font-weight: 500;
-  font-size: 1.2rem;
-}
-
-.card-area {
-  margin-bottom: 0.8rem;
-}
-
-.card-container {
+.slots-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.8rem;
+  gap: 8px;
   justify-content: center;
-  min-height: 100px;
-  padding: 0.7rem;
-  margin-bottom: 0.5rem;
-  border-radius: 15px;
-  transition: all 0.3s;
-  background-color: white;
-}
-
-/* 배치된 카드 컨테이너 */
-#placed-cards {
-  background-color: white;
-  border: 2px dotted #f4c84d;
   min-height: 120px;
+  padding: 20px;
+  background: var(--slot-bg);
+  border-radius: 16px;
+  margin-bottom: 30px;
+  border: 2px dashed #d1c8aa;
+}
+.words-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.8rem;
+  gap: 12px;
   justify-content: center;
-  padding: 1.5rem;
-  margin-bottom: 1.5rem;
-  border-radius: 15px;
-  transition: all 0.3s;
 }
-
-/* 사용 가능한 카드 컨테이너 */
-#available-cards {
-  background-color: transparent;
-  border: none;
-  padding: 0.7rem;
-  margin-bottom: 0.3125rem;
-}
-
-.card {
+.word-card {
   display: flex;
   flex-direction: column;
-  padding: 0.2rem 1.5rem;
-  background-color: #e8f8f5;
-  color: #e0a800;
-  border: 2px solid #f4c84d;
-  border-radius: 10px;
-  cursor: pointer;
-  user-select: none;
-  text-align: center;
-  transition: all 0.3s;
-}
-
-.card:hover {
-  background-color: #d5f5e3;
-  transform: translateY(-3px);
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-}
-
-.card:active {
-  transform: scale(0.95);
-}
-
-.card .hanzi {
-  font-family: 'Noto Sans SC', 'Noto Sans', sans-serif;
-  font-size: 1.1rem;
-  font-weight: 700;
-  margin-bottom: 0.3rem;
-}
-
-.card .pinyin {
-  font-family: 'Noto Sans', sans-serif;
-  font-size: 1rem;
-  font-style: bold;
-  margin-bottom: 0.1rem;
-}
-
-.answer-area {
-  margin-top: 0.3rem;
-  margin-bottom: 0.3125rem;
-}
-
-.control-buttons {
-  flex-direction: row;
   align-items: center;
-  display: flex;
-  justify-content: space-between;
-  margin-top: 0.3125rem;
-  gap: 1rem;
-}
-
-/* 버튼들은 가로로 배치 */
-.button-row {
-  display: flex;
-  gap: 1rem;
   justify-content: center;
-}
-
-/* 결과 메시지 스타일 */
-#result-message {
-  text-align: center;
-  padding: 1rem 2rem;
-  margin-top: 1rem;
-  background-color: #e8f8f5;
-  color: #e0a800;
-  border: 2px solid #f4c84d;
-  border-radius: 10px;
-  font-weight: 700;
-  font-size: 1.2rem;
-  min-width: 200px;
-  max-width: 100%;
-}
-
-/* 오답 메시지 스타일 */
-#result-message.incorrect {
-  background-color: #fdecea;
-  color: #e53935;
-  border-color: #e53935;
-}
-
-/* 정답 메시지 스타일 */
-#result-message.correct {
-  background-color: #e8f5e9;
-  color: #43a047;
-  border-color: #43a047;
-}
-
-button {
-  padding: 0.2rem 2rem;
-  background-color: #e8f8f5;
-  color: #e0a800;
-  border: 2px solid #f4c84d;
-  border-radius: 10px;
-  font-size: 1.1rem;
-  font-weight: 600;
+  padding: 10px 18px;
+  background-color: var(--card-bg);
+  border: 2px solid var(--main-color);
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(244, 200, 77, 0.2);
   cursor: pointer;
-  transition: all 0.3s;
+  transition: transform 0.1s;
+  min-width: 70px;
 }
-
-button:hover {
-  background-color: #f4c84d;
-  color: white;
+.word-card:active {
+  transform: scale(0.92);
 }
-
-button:active {
-  transform: translateY(2px);
+.word-card.hidden {
+  opacity: 0;
+  pointer-events: none;
 }
-
-#start-game {
-  background-color: #f4c84d;
-  color: white;
-  font-size: 1.2rem;
-}
-
-#check-button {
-  background-color: #f4c84d;
-  color: white;
-  height: 44px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 0.7rem 2rem;
-}
-
-#check-button:hover {
-  background-color: #e0a800;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.25);
-}
-
-#review-sentences {
-  margin-top: 1.5rem;
-  background-color: #e8f8f5;
-  border-radius: 15px;
-  padding: 1.5rem;
-  max-height: 50vh;
-  overflow-y: auto;
-  border: 2px solid #f4c84d;
-}
-
-.review-item {
-  margin-bottom: 1.5rem;
-  padding: 1rem;
-  border-bottom: 1px dashed #f4c84d;
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s;
-}
-
-.review-item:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-/* 문장 번호 스타일 */
-.sentence-number {
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: #f4c84d;
-  margin-bottom: 0.8rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 2px solid #f4c84d;
-}
-
-/* 문장 박스 스타일 (A문장, B문장) */
-.sentence-box {
-  margin-bottom: 1rem;
-  padding: 0.8rem;
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  border-left: 4px solid #f4c84d;
-}
-
-.sentence-box:last-child {
-  margin-bottom: 0;
-}
-
-/* 한자 스타일 */
-.sentence-box .chinese {
-  font-family: 'Noto Sans SC', 'Noto Sans', sans-serif;
-  font-size: 1.1rem;
-  font-weight: 500;
-  margin-bottom: 0.3rem;
-  color: #f4c84d;
-}
-
-/* 병음 스타일 */
-.sentence-box .pinyin {
-  font-family: 'Noto Sans', sans-serif;
-  font-size: 1.1rem;
-  font-style: bold;
-  margin-bottom: 0.6rem;
-  color: #404040;
+.word-card .pinyin {
+  font-size: 14px;
+  color: #777;
+  margin-bottom: 4px;
   font-weight: 500;
 }
-
-/* 한국어 스타일 */
-.sentence-box .korean {
-  font-family: 'Noto Sans KR', 'Noto Sans', sans-serif;
-  font-size: 1.1rem;
-  color: #333;
+.word-card .hanzi {
+  font-size: 32px;
+  color: var(--text-color);
+  font-weight: 800;
 }
 
-.hidden {
-  display: none;
+/* 애니메이션 */
+.shake-screen {
+  animation: shake-hard 0.4s ease-in-out;
 }
-
-/* 모바일 최적화 */
-@media (max-width: 768px) {
-  .container {
-    padding: 0.8rem;
-  }
-
-  header h1 {
-    font-size: 1.5rem;
-  }
-
-  header h2 {
-    font-size: 1rem;
-  }
-
-  .popup-content {
-    padding: 1.5rem;
-  }
-
-  .popup h2 {
-    font-size: 1.5rem;
-  }
-
-  .popup p {
-    font-size: 1rem;
-  }
-
-  .sentence-display {
-    padding: 1rem;
-    font-size: 1.1rem;
-  }
-
-  .card .hanzi {
-    font-size: 1.1rem;
-  }
-
-  .card .pinyin {
-    font-size: 1.2rem;
-  }
-
-  button {
-    padding: 0.7rem 1.5rem;
-    font-size: 1rem;
-  }
-
-  header {
-    padding: 0.6rem;
-    margin-bottom: 0.7rem;
-  }
-
-  .game-header {
-    padding: 0.3rem;
-    margin-bottom: 0.5rem;
-  }
-
-  .control-buttons {
-    flex-direction: row;
-    margin-top: 0.25rem;
-    gap: 0.7rem;
-  }
-
-  #available-cards {
-    margin-bottom: 0.25rem;
-  }
-}
-
-/* 버튼 컨테이너 스타일 */
-.button-container {
-  text-align: center;
-  margin-top: 2rem;
-  width: 100%;
-}
-
-/* 시작 버튼 스타일 */
-#start-game {
-  background-color: #f4c84d;
-  color: white;
-  font-size: 1.2rem;
-  padding: 1rem 2.5rem;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  transition: all 0.3s;
-  display: inline-block;
-}
-
-#start-game:hover {
-  background-color: #e0a800;
-  transform: translateY(-3px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-#start-game:active {
-  transform: translateY(1px);
-}
-
-/* Day 선택 섹션의 제목 가운데 정렬 */
-#day-selection h3 {
-  text-align: center;
-  margin-bottom: 1.5rem;
-  color: #e0a800;
-  font-size: 1.5rem;
-}
-
-/* 흔들림 애니메이션 정의 */
-@keyframes shake {
+@keyframes shake-hard {
   0%,
   100% {
     transform: translateX(0);
   }
-  10%,
-  30%,
-  50%,
-  70%,
-  90% {
-    transform: translateX(-5px);
-  }
   20%,
+  60% {
+    transform: translateX(-10px);
+  }
   40%,
-  60%,
   80% {
-    transform: translateX(5px);
+    transform: translateX(10px);
   }
 }
-
-/* 흔들림 효과를 적용할 클래스 */
-.shake {
-  animation: shake 0.8s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
-  transform: translate3d(0, 0, 0);
-  backface-visibility: hidden;
-  perspective: 1000px;
-}
-
-/* 시간 초과 팝업 스타일 */
-#timeout-popup .popup-content {
-  background-color: rgba(255, 242, 221, 0.95);
-  border: 3px solid #f4c84d;
-  padding: 2rem;
-  text-align: center;
-  border-radius: 15px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-  animation: popup-fade 0.3s ease-out;
-}
-
-#timeout-popup h2 {
-  color: #e0a800;
-  font-size: 2rem;
-  margin-bottom: 1rem;
-}
-
-#timeout-popup p {
-  color: #333;
-  font-size: 1.2rem;
-}
-
-/* 팝업 애니메이션 */
-@keyframes popup-fade {
-  from {
-    opacity: 0;
-    transform: scale(0.8);
+@keyframes bounce-soft {
+  0%,
+  100% {
+    transform: translateY(0);
   }
-  to {
+  50% {
+    transform: translateY(-10px);
+  }
+}
+@keyframes pulse {
+  0% {
     opacity: 1;
-    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
   }
 }
 
-#completed-day {
-  color: #e0a800;
-  text-align: center;
-  font-size: 1.5rem;
-  margin-bottom: 0.5rem;
-  font-weight: 700;
-}
-
-/* 걸린 시간 표시 스타일 */
-.elapsed-time {
-  text-align: center;
-  font-size: 1.2rem;
-  color: #e0a800;
+/* --- 인트로 로고 디자인 --- */
+.pre-title {
+  color: #bfae82;
+  font-size: 18px; /* 기존 20px에서 살짝 줄여 메인 타이틀을 강조 */
+  margin-bottom: 8px; /* -5px에서 8px로 변경하여 깔끔한 숨통(여백) 틔우기 */
   font-weight: 600;
-  margin-bottom: 1rem;
-  padding: 0.8rem;
-  background-color: #e8f8f5;
-  border-radius: 10px;
-  border: 2px solid #f4c84d;
+  letter-spacing: 2px; /* 자간을 살짝 넓혀서 여유롭고 세련된 느낌 추가 */
 }
 
-/* 설명 팝업 스타일 */
-.explanation-content {
-  max-width: 600px;
+/* --- 팝업 페이징 및 내용 레이아웃 --- */
+.popup-page {
+  display: none;
+  flex-direction: column;
+  height: 100%;
 }
-
-.explanation-content h2 {
-  color: #e0a800;
-  text-align: center;
-  margin-bottom: 1.5rem;
-  font-size: 1.8rem;
-}
-
-.explanation-text {
-  background-color: #fffbf0;
-  padding: 1.5rem;
-  border-radius: 10px;
-  margin-bottom: 1.5rem;
-  border: 2px dashed #f4c84d;
-}
-
-.explanation-text .question {
-  color: #d1464c;
-  font-weight: 700;
-  font-size: 1.2rem;
-  margin-bottom: 1rem;
-  text-align: center;
-}
-
-.explanation-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.explanation-list li {
-  padding: 0.8rem;
-  margin-bottom: 0.8rem;
-  background-color: #e8f8f5;
-  border-radius: 8px;
-  border-left: 4px solid #f4c84d;
-  font-size: 1.05rem;
-  line-height: 1.6;
-  color: #333;
-}
-
-.explanation-list li:last-child {
-  margin-bottom: 0;
-}
-
-#close-explanation {
-  background-color: #f4c84d;
-  color: white;
-  font-size: 1.2rem;
-  padding: 0.8rem 2.5rem;
-}
-
-#close-explanation:hover {
-  background-color: #e0a800;
-}
-
-/* 리셋 버튼은 눈에 띄게 빨간색으로 유지 */
-#reset-button {
-  background-color: #dc2626;
-  color: white;
-  height: 44px;
+.popup-page.active {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 0.7rem 2rem;
-  border: 2px solid #991b1b;
-  transition: all 0.3s ease;
 }
 
-#reset-button:hover {
-  background-color: #991b1b;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(220, 38, 38, 0.3);
+/* 글씨가 많을 경우 안에서 스크롤되도록 설정 */
+.intro-scroll-content {
+  max-height: 55vh;
+  overflow-y: auto;
+  text-align: left;
+  margin-bottom: 15px;
+  padding-right: 8px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #444;
+}
+.intro-scroll-content p {
+  margin-bottom: 12px;
+}
+
+.intro-sub {
+  font-size: 17px;
+  color: var(--main-dark);
+  margin: 18px 0 8px 0;
+  font-weight: 800;
+}
+
+.credits {
+  background: var(--bg-color);
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  line-height: 1.5;
+  margin-top: 15px;
+  border: 1px dashed var(--main-color);
+}
+
+.closing-remark {
+  text-align: center;
+  font-weight: bold;
+  color: var(--main-dark);
+  margin-top: 30px;
+  font-size: 18px;
+}
+
+/* 팝업 하단 내비게이션 바 */
+.popup-actions-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}
+.page-indicator {
+  font-size: 14px;
+  color: #888;
+  font-weight: bold;
+  flex: 1;
+  text-align: center;
+}
+.small-btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  margin: 0;
 }
